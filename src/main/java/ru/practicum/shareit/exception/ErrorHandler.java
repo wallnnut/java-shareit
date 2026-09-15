@@ -43,4 +43,10 @@ public class ErrorHandler {
     public ErrorResponse handleIllegalArgument(IllegalArgumentException e) {
         return new ErrorResponse(e.getMessage());
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleException(Exception e) {
+        return new ErrorResponse(e.getMessage());
+    }
 }

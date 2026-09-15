@@ -35,7 +35,7 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public Optional<User> findByEmail(String email) {
         return users.values().stream()
-                .filter(user -> user.getEmail() != null && user.getEmail().equalsIgnoreCase(email))
+                .filter(user -> user.getEmail().equalsIgnoreCase(email))
                 .findFirst();
     }
 
