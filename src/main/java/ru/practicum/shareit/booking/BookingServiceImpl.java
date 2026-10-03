@@ -96,8 +96,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private void validateDates(LocalDateTime start, LocalDateTime end) {
-        LocalDateTime now = LocalDateTime.now();
-        if (start.isBefore(now) || end.isBefore(now)) {
+        LocalDateTime earliest = LocalDateTime.now().minusSeconds(1).withNano(0);
+        if (start.isBefore(earliest) || end.isBefore(earliest)) {
             throw new IllegalArgumentException("Даты бронирования не могут быть в прошлом");
         }
         if (!end.isAfter(start)) {
