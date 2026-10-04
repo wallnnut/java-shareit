@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS items (
     owner_id BIGINT NOT NULL,
     request_id BIGINT,
     CONSTRAINT pk_item PRIMARY KEY (id),
-    CONSTRAINT fk_item_owner FOREIGN KEY (owner_id) REFERENCES users (id)
+    CONSTRAINT fk_item_owner FOREIGN KEY (owner_id) REFERENCES users (id),
+    CONSTRAINT UQ_OWNER_ITEM_NAME UNIQUE (owner_id, name)
 );
 
 CREATE TABLE IF NOT EXISTS bookings (
