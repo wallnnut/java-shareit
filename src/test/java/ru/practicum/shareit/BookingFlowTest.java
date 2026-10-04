@@ -110,6 +110,10 @@ class BookingFlowTest {
                         .header(USER_HEADER, bookerId)
                         .param("approved", "true"))
                 .andExpect(status().isForbidden());
+        mockMvc.perform(patch("/bookings/" + bookingId)
+                        .header(USER_HEADER, ownerId + 2)
+                        .param("approved", "true"))
+                .andExpect(status().isForbidden());
         mockMvc.perform(get("/bookings/" + bookingId).header(USER_HEADER, bookerId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("WAITING"));

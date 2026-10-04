@@ -54,9 +54,9 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public BookingDto approve(Long userId, Long bookingId, boolean approved) {
-        getUserOrThrow(userId);
+        boolean userExists = userRepository.existsById(userId);
         Booking booking = getBookingOrThrow(bookingId);
-        if (!booking.getItem().getOwner().getId().equals(userId)) {
+        if (!userExists || !booking.getItem().getOwner().getId().equals(userId)) {
             throw new ForbiddenException("Подтвердить бронирование может только владелец вещи");
         }
         if (booking.getStatus() != BookingStatus.WAITING) {
