@@ -36,8 +36,8 @@ class BookingServiceIntegrationTest {
         long itemId = item(ownerId, "Drill", true);
         long hiddenId = item(ownerId, "Saw", false);
 
-        assertThatThrownBy(() -> bookingService.create(bookerId,
-                booking(itemId, LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1))))
+        LocalDateTime sameMoment = LocalDateTime.now().plusDays(1);
+        assertThatThrownBy(() -> bookingService.create(bookerId, booking(itemId, sameMoment, sameMoment)))
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> bookingService.create(9999L,
                 booking(itemId, LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2))))
