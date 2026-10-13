@@ -25,9 +25,6 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     @Override
     @Transactional
     public ItemRequestDto create(Long userId, ItemRequestDto dto) {
-        if (dto.getDescription() == null || dto.getDescription().isBlank()) {
-            throw new IllegalArgumentException("Описание запроса не может быть пустым");
-        }
         User requestor = getUserOrThrow(userId);
         ItemRequest request = ItemRequest.builder()
                 .description(dto.getDescription())

@@ -81,11 +81,8 @@ class ItemRequestServiceIntegrationTest {
     }
 
     @Test
-    void missingUserOrRequestOrBlankDescription() {
+    void missingUserOrRequest() {
         long userId = user("Alone", "alone-request@mail.com");
-        ItemRequestDto blank = request("  ");
-        assertThatThrownBy(() -> itemRequestService.create(userId, blank))
-                .isInstanceOf(IllegalArgumentException.class);
         ItemRequestDto missingUser = request("need");
         assertThatThrownBy(() -> itemRequestService.create(9999L, missingUser))
                 .isInstanceOf(NotFoundException.class);
