@@ -82,11 +82,6 @@ class BookingFlowTest {
                         .content(bookingJson(itemId, start, start)))
                 .andExpect(status().isBadRequest());
         mockMvc.perform(post("/bookings")
-                        .header(USER_HEADER, bookerId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"itemId\":" + itemId + ",\"end\":\"" + end + "\"}"))
-                .andExpect(status().isBadRequest());
-        mockMvc.perform(post("/bookings")
                         .header(USER_HEADER, ownerId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(bookingJson(itemId, start, end)))

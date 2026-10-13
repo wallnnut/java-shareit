@@ -2,8 +2,6 @@ package ru.practicum.shareit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +14,9 @@ import ru.practicum.shareit.booking.dto.BookingShortDto;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.validation.Create;
 
 @JsonTest
 class DtoJsonTest {
-    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
     @Autowired
     private JacksonTester<BookItemRequestDto> bookItemRequestJson;
     @Autowired
@@ -58,23 +53,11 @@ class DtoJsonTest {
     }
 
     @Test
-    void validationRejectsBlankAndAcceptsRequestId() throws Exception {
-        UserDto invalidUser = UserDto.builder().name(" ").email("bad").build();
+    void serializesUserEmailAndItemRequestId() throws Exception {
         UserDto validUser = UserDto.builder().name("Ann").email("ann@mail.com").build();
-        assertThat(validator.validate(invalidUser, Create.class)).isNotEmpty();
-        assertThat(validator.validate(validUser, Create.class)).isEmpty();
         assertThat(userJson.write(validUser)).extractingJsonPathStringValue("$.email").isEqualTo("ann@mail.com");
 
-        ItemDto invalidItem = ItemDto.builder().name("").description("").build();
         ItemDto validItem = ItemDto.builder().name("Drill").description("Power").available(true).requestId(9L).build();
-        assertThat(validator.validate(invalidItem, Create.class)).isNotEmpty();
-        assertThat(validator.validate(validItem, Create.class)).isEmpty();
         assertThat(itemJson.write(validItem)).extractingJsonPathNumberValue("$.requestId").isEqualTo(9);
-
-        CommentDto blank = CommentDto.builder().text(" ").build();
-        assertThat(validator.validate(blank)).isNotEmpty();
-
-        BookItemRequestDto missing = BookItemRequestDto.builder().build();
-        assertThat(validator.validate(missing)).isNotEmpty();
     }
 }

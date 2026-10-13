@@ -71,6 +71,23 @@ class ItemControllerTest {
     }
 
     @Test
+    void createWithoutDescriptionOrAvailableDoesNotCallClient() throws Exception {
+        mockMvc.perform(post("/items")
+                        .header(USER_HEADER, 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\":\"Drill\",\"available\":true,\"requestId\":9}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").exists());
+        mockMvc.perform(post("/items")
+                        .header(USER_HEADER, 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\":\"Drill\",\"description\":\"Power\",\"requestId\":9}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").exists());
+        verifyNoInteractions(itemClient);
+    }
+
+    @Test
     void updateGetSearchAndComment() throws Exception {
         when(itemClient.update(eq(1L), eq(3L), any())).thenReturn(ResponseEntity.ok(Map.of("id", 3)));
         when(itemClient.getById(1L, 3L)).thenReturn(ResponseEntity.ok(Map.of("id", 3)));

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -71,33 +70,5 @@ class ItemControllerCreateTest {
         ArgumentCaptor<ItemDto> captor = ArgumentCaptor.forClass(ItemDto.class);
         verify(itemService).create(eq(1L), captor.capture());
         assertThat(captor.getValue().getRequestId()).isEqualTo(9L);
-    }
-
-    @Test
-    void createWithoutNameIsBadRequestEvenWithRequestId() throws Exception {
-        mockMvc.perform(post("/items")
-                        .header(USER_HEADER, 1)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"description\":\"Power\",\"available\":true,\"requestId\":9}"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").exists());
-        verifyNoInteractions(itemService);
-    }
-
-    @Test
-    void createWithoutDescriptionOrAvailableIsBadRequest() throws Exception {
-        mockMvc.perform(post("/items")
-                        .header(USER_HEADER, 1)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"Drill\",\"available\":true,\"requestId\":9}"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").exists());
-        mockMvc.perform(post("/items")
-                        .header(USER_HEADER, 1)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"Drill\",\"description\":\"Power\",\"requestId\":9}"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").exists());
-        verifyNoInteractions(itemService);
     }
 }

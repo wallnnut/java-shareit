@@ -3,7 +3,6 @@ package ru.practicum.shareit.request;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -49,17 +48,6 @@ class ItemRequestControllerTest {
                 .andExpect(jsonPath("$.description").value("need drill"))
                 .andExpect(jsonPath("$.created").value("2026-01-02T03:04:05"))
                 .andExpect(jsonPath("$.items").isArray());
-    }
-
-    @Test
-    void createBlankDescriptionIsBadRequest() throws Exception {
-        mockMvc.perform(post("/requests")
-                        .header(USER_HEADER, 1)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"description\":\"\"}"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").exists());
-        verifyNoInteractions(itemRequestService);
     }
 
     @Test

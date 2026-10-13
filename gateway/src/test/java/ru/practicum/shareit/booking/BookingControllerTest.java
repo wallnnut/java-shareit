@@ -94,6 +94,12 @@ class BookingControllerTest {
                         .content("{"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").exists());
+        mockMvc.perform(post("/bookings")
+                        .header(USER_HEADER, 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"itemId\":4,\"end\":\"" + end + "\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").exists());
         verifyNoInteractions(bookingClient);
     }
 }
