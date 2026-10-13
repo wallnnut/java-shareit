@@ -17,7 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.practicum.shareit.request.dto.ItemRequestAnswerDto;
+import ru.practicum.shareit.request.dto.ItemResponseDto;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 
 @WebMvcTest(ItemRequestController.class)
@@ -78,7 +78,7 @@ class ItemRequestControllerTest {
                 .id(5L)
                 .description("need drill")
                 .created(LocalDateTime.of(2026, 1, 2, 3, 4, 5))
-                .items(List.of(ItemRequestAnswerDto.builder().id(7L).name("Drill").ownerId(3L).build()))
+                .items(List.of(ItemResponseDto.builder().id(7L).name("Drill").ownerId(3L).build()))
                 .build());
 
         mockMvc.perform(get("/requests/5").header(USER_HEADER, 2))

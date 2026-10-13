@@ -20,7 +20,7 @@ class ItemRequestDtoJsonTest {
                 .id(1L)
                 .description("need a drill")
                 .created(LocalDateTime.of(2026, 10, 12, 15, 30, 0))
-                .items(List.of(ItemRequestAnswerDto.builder().id(2L).name("Drill").ownerId(3L).build()))
+                .items(List.of(ItemResponseDto.builder().id(2L).name("Drill").ownerId(3L).build()))
                 .build();
 
         assertThat(json.write(dto)).extractingJsonPathStringValue("$.created")

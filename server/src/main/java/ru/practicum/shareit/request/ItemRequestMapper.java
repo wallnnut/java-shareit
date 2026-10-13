@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.request.dto.ItemRequestAnswerDto;
+import ru.practicum.shareit.request.dto.ItemResponseDto;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 
 @UtilityClass
@@ -19,13 +19,13 @@ public class ItemRequestMapper {
                 .build();
     }
 
-    private List<ItemRequestAnswerDto> toItemDtos(List<Item> items) {
+    private List<ItemResponseDto> toItemDtos(List<Item> items) {
         if (items == null || items.isEmpty()) {
             return List.of();
         }
         return items.stream()
                 .sorted(Comparator.comparing(Item::getId))
-                .map(item -> ItemRequestAnswerDto.builder()
+                .map(item -> ItemResponseDto.builder()
                         .id(item.getId())
                         .name(item.getName())
                         .ownerId(item.getOwner().getId())

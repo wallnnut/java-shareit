@@ -21,5 +21,5 @@ public class ItemRequestDto {
     private LocalDateTime created;
 
     @Builder.Default
-    private List<ItemRequestAnswerDto> items = new ArrayList<>();
+    private List<ItemResponseDto> items = new ArrayList<>();
 }
